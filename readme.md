@@ -1,8 +1,8 @@
-## Ñ§Ï°¼ÇÂ¼
+ï»¿## å­¦ä¹ è®°å½•
 
-Ñ§Ï°µÄ¹ı³Ì£¬ÊÇÖµµÃµÄ¡£
+å­¦ä¹ çš„è¿‡ç¨‹ï¼Œæ˜¯å€¼å¾—çš„ã€‚
 
-ÌáÉı×Ô¼ºµÄÄÜÁ¦£¬ÌáÉı×Ô¼ºµÄ¼ÛÖµ¡£
+æå‡è‡ªå·±çš„èƒ½åŠ›ï¼Œæå‡è‡ªå·±çš„ä»·å€¼ã€‚
 
 
-java base ²Î¿¼ [ÁÎÑ©·åµÄ¹Ù·½ÍøÕ¾](https://liaoxuefeng.com/)ÖĞµÄ[java½Ì³Ì](https://liaoxuefeng.com/books/java/introduction/index.html)
+java base å‚è€ƒ [å»–é›ªå³°çš„å®˜æ–¹ç½‘ç«™](https://liaoxuefeng.com/)ä¸­çš„[javaæ•™ç¨‹](https://liaoxuefeng.com/books/java/introduction/index.html)
