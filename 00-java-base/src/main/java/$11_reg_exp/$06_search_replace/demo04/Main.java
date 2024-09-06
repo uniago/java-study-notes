@@ -29,20 +29,24 @@ public class Main {
         Matcher matcher = compile.matcher(template);
         // 创建一个StringBuilder对象，用于存储替换后的字符串
         StringBuilder sb = new StringBuilder();
+        // 定义截取的起始位置
+        int startPos = 0;
         // 遍历模板中的变量
         while(matcher.find()) {
-            // 获取变量的名称
-            String key = matcher.group(1);
             // 获取变量的值
-            String value = data.get(key);
-            // 如果变量存在，则将变量替换为对应的值
-            if (value != null) {
-                // 将匹配到的字符串替换为指定的字符串，并将结果添加到StringBuilder对象中
-                matcher.appendReplacement(sb, value);
-            }
+            String value = data.get(matcher.group(1));
+            // 截取 Hello, ${name}
+            String str = template.substring(startPos, matcher.end());
+            // 替换为 Hello, Bob
+            String replacedStr = str.replace(matcher.group(), value);
+            // 将变量添加到sb中
+            sb.append(replacedStr);
+            // 更新截取的起始位置
+            startPos = matcher.end();
         }
-        // 将剩余的字符串添加到StringBuffer对象中
-        matcher.appendTail(sb);
+        // 将剩余的字符串添加到sb
+        sb.append(template.substring(startPos));
         // 返回替换后的字符串
         return sb.toString();
-    }}
+    }
+}
