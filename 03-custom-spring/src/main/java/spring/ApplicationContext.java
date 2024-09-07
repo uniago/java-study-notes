@@ -12,19 +12,19 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ApplicationContext {
 
-    private Class<?> clazz;
+    private final Class<?> clazz;
     /**
      * bean定义
      */
-    private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
+    private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
     /**
      * 单例池
      */
-    private Map<String, Object> singletonObject = new ConcurrentHashMap<>();
+    private final Map<String, Object> singletonObject = new ConcurrentHashMap<>();
     /**
      * bean处理器
      */
-    private List<BeanPostProcess> beanPostProcessList = new ArrayList<>();
+    private final List<BeanPostProcess> beanPostProcessList = new ArrayList<>();
 
     public ApplicationContext(Class<?> clazz) {
         this.clazz = clazz;
@@ -127,7 +127,7 @@ public class ApplicationContext {
 
             // Bean前置处理
             for (BeanPostProcess process : beanPostProcessList) {
-                process.postProcessBeforeInitialization(beanName, instance);
+                instance = process.postProcessBeforeInitialization(beanName, instance);
             }
 
             // 执行初始化回调
@@ -137,7 +137,7 @@ public class ApplicationContext {
 
             // Bean后置处理 AOP
             for (BeanPostProcess process : beanPostProcessList) {
-                process.postProcessBeforeInitialization(beanName, instance);
+                instance = process.postProcessAfterInitialization(beanName, instance);
             }
 
 
