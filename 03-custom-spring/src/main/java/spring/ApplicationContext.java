@@ -1,6 +1,8 @@
 package spring;
 
+import java.beans.Introspector;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Map;
@@ -30,16 +32,23 @@ public class ApplicationContext {
             ClassLoader classLoader = ApplicationContext.class.getClassLoader();
             URL resource = classLoader.getResource(path);
             File direction = new File(resource.getPath());
+            // 解析包路径
             if (direction.isDirectory()) {
                 // 这里只模拟扫描一层
                 for (File file : direction.listFiles()) {
                     if (file.getName().endsWith(".class")) {
                         String beanClassName = packagePath + "." + file.getName().replace(".class", "");
                         try {
+                            // 加载class
                             Class<?> aClass = classLoader.loadClass(beanClassName);
                             // 若有Component注解
                             if (aClass.isAnnotationPresent(Component.class)) {
-                                Component beanName = aClass.getAnnotation(Component.class);
+                                Component beanNameAnnotation = aClass.getAnnotation(Component.class);
+                                String beanName = beanNameAnnotation.value();
+                                if ("".equals(beanName)) {
+                                    // 首字母小写
+                                    beanName = Introspector.decapitalize(aClass.getSimpleName());
+                                }
                                 // 存入BeanDefinition
                                 BeanDefinition beanDefinition = new BeanDefinition();
                                 // 若有scope注解
@@ -52,7 +61,7 @@ public class ApplicationContext {
                                 beanDefinition.setType(aClass);
 
                                 // 保存到map
-                                beanDefinitionMap.put(beanName.value(), beanDefinition);
+                                beanDefinitionMap.put(beanName, beanDefinition);
                             }
                         } catch (ClassNotFoundException e) {
                             throw new RuntimeException(e);
@@ -85,7 +94,16 @@ public class ApplicationContext {
         Class<?> aClass = beanDefinition.getType();
         try {
             // 暂时通过无参构造创建对象
-            return aClass.getConstructor().newInstance();
+            Object instance = aClass.getConstructor().newInstance();
+            // 依赖注入 字段注入
+            for (Field field : aClass.getDeclaredFields()) {
+                if (field.isAnnotationPresent(AutoWired.class)) {
+                    field.setAccessible(true);
+                    // 给字段设置bean byName方式
+                    field.set(instance, getBean(field.getName()));
+                }
+            }
+            return instance;
         } catch (InstantiationException | InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
