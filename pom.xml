@@ -13,6 +13,7 @@
     <module>02-spring-framework</module>
     <module>01-servlet</module>
     <module>00-java-base</module>
+    <module>04-custom-spring-mybatis</module>
   </modules>
 
   <properties>
