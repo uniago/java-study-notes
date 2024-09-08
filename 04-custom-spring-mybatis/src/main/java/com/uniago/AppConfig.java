@@ -1,15 +1,19 @@
 package com.uniago;
 
+import mybatis.spring.MapperScan;
+import mybatis.spring.MybatisImportBeanDefinitionRegistrar;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-@ComponentScan("com.uniago, mybatis")
+@ComponentScan("com.uniago")
+@MapperScan("com.uniago.mapper")
 public class AppConfig {
 
     /**

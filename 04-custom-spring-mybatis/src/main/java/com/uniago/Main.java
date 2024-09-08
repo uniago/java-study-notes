@@ -1,12 +1,20 @@
 package com.uniago;
 
+import com.uniago.mapper.OrderMapper;
+import com.uniago.mapper.UserMapper;
 import com.uniago.service.UserService;
+import mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
     public static void main(String[] args) {
-        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+
+
+
         UserService userService = ac.getBean("userService", UserService.class);
         userService.test();
 
